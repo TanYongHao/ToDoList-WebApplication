@@ -33,7 +33,7 @@ module.exports = {
       config: {
         repository: {
           owner: 'TanYongHao',
-          name: 'todolist-webapplication'
+          name: 'TodoList-WebApplication'
         },
         prerelease: false,
         draft: true,
