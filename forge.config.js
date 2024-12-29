@@ -4,6 +4,12 @@ const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 module.exports = {
   packagerConfig: {
     asar: true,
+    extraFiles: [
+      {
+        from: 'ToDo.txt',
+        to: 'ToDo.txt'
+      }
+    ]
   },
   rebuildConfig: {},
   makers: [

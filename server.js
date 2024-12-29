@@ -1,8 +1,16 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
 
 let mainWindow;
+const userDataPath = app.getPath('userData');
+const todoFilePath = path.join(userDataPath, 'ToDo.txt');
+
+// Ensure the ToDo.txt file exists in the user data path
+if (!fs.existsSync(todoFilePath)) {
+    fs.copyFileSync(path.join(__dirname, 'ToDo.txt'), todoFilePath);
+}
 
 // Creates the main window
 app.on('ready', () => {
@@ -20,7 +28,7 @@ app.on('ready', () => {
     mainWindow.loadFile('public/index.html');
 
     // Reads the ToDo.txt file and send the data to the frontend
-    fs.readFile(path.join(__dirname, 'ToDo.txt'), 'utf-8', (err, data) => {
+    fs.readFile(todoFilePath, 'utf-8', (err, data) => {
         if (err) {
             console.error('Error reading ToDo.txt:', err);
             return;
