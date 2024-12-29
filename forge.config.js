@@ -3,6 +3,7 @@ const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 
 module.exports = {
   packagerConfig: {
+    icon: '/public/resources/icon',
     asar: true,
     extraFiles: [
       {

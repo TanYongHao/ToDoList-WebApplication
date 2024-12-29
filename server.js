@@ -22,17 +22,17 @@ if (!fs.existsSync(todoFilePath)) {
 function createShortcuts() {
     const desktopPath = path.join(os.homedir(), 'Desktop');
     const appShortcutPath = path.join(desktopPath, 'ToDoList.lnk');
-    const todoShortcutPath = path.join(desktopPath, 'ToDo.txt');
+    const todoShortcutPath = path.join(desktopPath, 'ToDo.txt.lnk');
 
     // Create application shortcut
-    exec(`powershell -command "$s=(New-Object -COM WScript.Shell).CreateShortcut('${appShortcutPath}');$s.TargetPath='${process.execPath}';$s.Save()"`, (error) => {
+    exec(`powershell -command "$s=(New-Object -COM WScript.Shell).CreateShortcut('${appShortcutPath}');$s.TargetPath='${process.execPath}';$s.Description='To-Do List Application';$s.Save()"`, (error) => {
         if (error) {
             console.error('Error creating application shortcut:', error);
         }
     });
 
     // Create ToDo.txt shortcut
-    exec(`powershell -command "$s=(New-Object -COM WScript.Shell).CreateShortcut('${todoShortcutPath}');$s.TargetPath='${todoFilePath}';$s.Save()"`, (error) => {
+    exec(`powershell -command "$s=(New-Object -COM WScript.Shell).CreateShortcut('${todoShortcutPath}');$s.TargetPath='${todoFilePath}';$s.Description='Tasks';$s.Save()"`, (error) => {
         if (error) {
             console.error('Error creating ToDo.txt shortcut:', error);
         }
@@ -51,6 +51,7 @@ app.on('ready', () => {
         height: 250,
         frame: false,
         transparent: true,
+        icon: path.join(__dirname, 'public', 'resources', 'icon.ico'),
         webPreferences: {
             nodeIntegration: true, 
             contextIsolation: false,
