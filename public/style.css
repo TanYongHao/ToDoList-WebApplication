@@ -1,0 +1,137 @@
+::-webkit-scrollbar {
+        width: 0px;
+}
+
+body {
+    -webkit-app-region: drag;
+    user-select: none;
+}
+
+p, .image-wrapper {
+    -webkit-app-region: no-drag;
+}
+
+.window {
+    background-color: rgb(196, 155, 102, 0.6);
+    width: 400px;
+    height: 200px;
+    border-radius: 50px;
+}
+
+p {
+    color: white;
+    font-family: Mochiy Pop One;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+}
+
+.header p {
+    flex-grow: 1;
+    font-size: 20px;
+    font-family: Mochiy Pop One;
+    text-align: center;
+    margin: 0;
+}
+
+.header img {
+    width: 32px;
+    height: 32px;
+}
+
+.tasks {
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.tasks-wrapper img {
+    width: 32px;
+    height: 32px;
+    margin-left: 20px;
+}
+
+.tasks-wrapper p {
+    margin-left: 40px;
+}
+
+.image-wrapper {
+    position: relative;
+    width: 32px;
+    height: 32px;
+}
+
+.image-wrapper img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.3s ease;
+}
+
+.image-wrapper .hover-img {
+    opacity: 0;
+    cursor: pointer;
+}
+
+.image-wrapper:hover .hover-img {
+    opacity: 1;
+}
+
+.image-wrapper:hover img:not(.hover-img) {
+    opacity: 0;
+}
+
+.permanent-hover .hover-img {
+    opacity: 0.8;
+}
+
+.permanent-hover img:not(.hover-img) {
+    opacity: 0;
+}
+
+.tasks:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.tasks:hover img:not(.hover-img) {
+    opacity: 0;
+}
+
+.tasks:hover p {
+    text-decoration: line-through;
+}
+
+.tasks:hover .hover-img {
+    opacity: 1;
+}
+
+.tasks:hover img:not(.hover-img) {
+    opacity: 1;
+}
+
+.hover-img.visible {
+    opacity: 1;
+}
+
+.strikethrough {
+    text-decoration: line-through;
+    color: white;
+    opacity: 0.8;
+}
+
+.dont-display {
+    opacity: 0;
+}
+
+
+.cute-image {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
