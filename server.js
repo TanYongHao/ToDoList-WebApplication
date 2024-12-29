@@ -2,6 +2,12 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
+const { exec } = require('child_process');
+const squirrelStartup = require('electron-squirrel-startup');
+
+if (squirrelStartup) {
+    app.quit();
+}
 
 let mainWindow;
 const userDataPath = app.getPath('userData');
@@ -10,6 +16,32 @@ const todoFilePath = path.join(userDataPath, 'ToDo.txt');
 // Ensure the ToDo.txt file exists in the user data path
 if (!fs.existsSync(todoFilePath)) {
     fs.copyFileSync(path.join(__dirname, 'ToDo.txt'), todoFilePath);
+}
+
+// Function to create shortcuts
+function createShortcuts() {
+    const desktopPath = path.join(os.homedir(), 'Desktop');
+    const appShortcutPath = path.join(desktopPath, 'ToDoList.lnk');
+    const todoShortcutPath = path.join(desktopPath, 'ToDo.txt');
+
+    // Create application shortcut
+    exec(`powershell -command "$s=(New-Object -COM WScript.Shell).CreateShortcut('${appShortcutPath}');$s.TargetPath='${process.execPath}';$s.Save()"`, (error) => {
+        if (error) {
+            console.error('Error creating application shortcut:', error);
+        }
+    });
+
+    // Create ToDo.txt shortcut
+    exec(`powershell -command "$s=(New-Object -COM WScript.Shell).CreateShortcut('${todoShortcutPath}');$s.TargetPath='${todoFilePath}';$s.Save()"`, (error) => {
+        if (error) {
+            console.error('Error creating ToDo.txt shortcut:', error);
+        }
+    });
+}
+
+// Handle squirrel events
+if (require('electron-squirrel-startup')) {
+    app.on('ready', createShortcuts);
 }
 
 // Creates the main window
