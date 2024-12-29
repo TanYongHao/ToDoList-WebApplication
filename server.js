@@ -24,24 +24,25 @@ function createShortcuts() {
     const appShortcutPath = path.join(desktopPath, 'ToDoList.lnk');
     const todoShortcutPath = path.join(desktopPath, 'ToDo.txt.lnk');
 
-    // Create application shortcut
-    exec(`powershell -command "$s=(New-Object -COM WScript.Shell).CreateShortcut('${appShortcutPath}');$s.TargetPath='${process.execPath}';$s.Description='To-Do List Application';$s.Save()"`, (error) => {
-        if (error) {
-            console.error('Error creating application shortcut:', error);
-        }
-    });
+        exec(`powershell -command "$s=(New-Object -COM WScript.Shell).CreateShortcut('${appShortcutPath}');$s.TargetPath='${process.execPath}';$s.Description='To-Do List Application';$s.Save()"`, (error) => {
+            if (error) {
+                console.error('Error creating application shortcut:', error);
+            }
+        });
 
-    // Create ToDo.txt shortcut
-    exec(`powershell -command "$s=(New-Object -COM WScript.Shell).CreateShortcut('${todoShortcutPath}');$s.TargetPath='${todoFilePath}';$s.Description='Tasks';$s.Save()"`, (error) => {
-        if (error) {
-            console.error('Error creating ToDo.txt shortcut:', error);
-        }
-    });
+
+        exec(`powershell -command "$s=(New-Object -COM WScript.Shell).CreateShortcut('${todoShortcutPath}');$s.TargetPath='${todoFilePath.replace(/\\/g, '\\\\')}';$s.Description='Tasks';$s.Save()"`, (error) => {
+            if (error) {
+                console.error('Error creating ToDo.txt shortcut:', error);
+            }
+        });
 }
 
 // Handle squirrel events
-if (require('electron-squirrel-startup')) {
-    app.on('ready', createShortcuts);
+if (!require('electron-squirrel-startup')) {
+    app.on('ready', () => {
+        createShortcuts();
+    });
 }
 
 // Creates the main window
@@ -51,7 +52,7 @@ app.on('ready', () => {
         height: 250,
         frame: false,
         transparent: true,
-        icon: path.join(__dirname, 'public', 'resources', 'icon.ico'),
+        icon: path.join(__dirname, 'public', 'resources', 'app.ico'),
         webPreferences: {
             nodeIntegration: true, 
             contextIsolation: false,

@@ -1,22 +1,23 @@
+const path = require('path');
 const { FusesPlugin } = require('@electron-forge/plugin-fuses');
 const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 
 module.exports = {
   packagerConfig: {
-    icon: '/public/resources/icon',
+    icon: path.resolve(__dirname, 'public', 'resources', 'app'), 
     asar: true,
     extraFiles: [
       {
         from: 'ToDo.txt',
         to: 'ToDo.txt'
-      }
+      },
     ]
   },
   rebuildConfig: {},
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {
+      config: { 
         certificateFile: './cert.pfx',
         certificatePassword: process.env.CERTIFICATE_PASSWORD
       },
